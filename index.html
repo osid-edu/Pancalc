@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Maestra de Pan</title>
+    <title>Calculadora de Pan</title>
     <style>
         :root {
-            --primary: #d35400;
-            --bg: #fdfbf7;
+            --primary: #d35400; /* Color Pan Tostado */
+            --bg: #fdfbf7;      /* Color Harina */
             --card: #ffffff;
             --text: #2c3e50;
             --btn-bg: #ecf0f1;
@@ -23,60 +23,57 @@
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         h1 { margin: 0; color: var(--primary); font-size: 1.5em; }
         
+        /* Botones de Idioma */
         .lang-container { display: flex; gap: 5px; }
         .lang-btn { 
-            cursor: pointer; 
-            border: 1px solid #ccc; 
-            background: var(--btn-bg); 
-            padding: 5px 10px; 
-            border-radius: 4px; 
-            font-size: 1.2em; 
-            transition: all 0.2s;
+            cursor: pointer; border: 1px solid #ccc; background: var(--btn-bg); 
+            padding: 5px 10px; border-radius: 4px; font-size: 1.2em; transition: all 0.2s;
         }
         .lang-btn:hover { background: #e0e0e0; }
-        .lang-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
+        .lang-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
 
-
+        /* Tarjetas */
         .card {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            border: 1px solid #eec;
+            background: var(--card); padding: 20px; border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; border: 1px solid #eec;
         }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--primary); }
         .input-group { margin-bottom: 15px; }
-        select, input[type="number"], input[type="range"] {
-            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; 
-        }
-        .slider-container { display: flex; align-items: center; gap: 10px; }
-        .slider-val { min-width: 50px; text-align: right; font-weight: bold; color: var(--primary); }
         
+        /* Inputs y Sliders */
+        select, input[type="number"] {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; box-sizing: border-box; background: #fff;
+        }
+        input[type="range"] { flex-grow: 1; cursor: pointer; }
+        .slider-container { display: flex; align-items: center; gap: 15px; }
+        .slider-val { min-width: 55px; text-align: right; font-weight: bold; color: var(--text); background: #eee; padding: 4px 8px; border-radius: 4px;}
+        .slider-help { font-size: 0.85em; color: #7f8c8d; margin-top: 4px; display: block; font-style: italic; }
+
+        /* Extras Checkboxes */
         .extras-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .checkbox-label { 
-            display: flex; align-items: center; gap: 10px; 
-            padding: 10px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer;
+            display: flex; align-items: center; gap: 10px; padding: 12px; 
+            border: 1px solid #ddd; border-radius: 8px; cursor: pointer; background: #fafafa;
         }
-        input[type="checkbox"] { transform: scale(1.5); }
+        .checkbox-label:hover { background: #f0f0f0; }
+        input[type="checkbox"] { transform: scale(1.3); margin: 0; }
 
-
-        .result-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #eee; font-size: 1.1em; }
-        .result-row.total { font-weight: bold; border-top: 2px solid var(--primary); border-bottom: none; margin-top: 10px; }
+        /* Resultados */
+        .result-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #eee; font-size: 1.1em; }
+        .result-row.sub-item { font-size: 0.95em; color: #666; padding-left: 20px; border-bottom: 1px dotted #eee; background: #fcfcfc; }
+        .result-row.total { font-weight: bold; border-top: 2px solid var(--primary); border-bottom: none; margin-top: 10px; padding-top: 15px; font-size: 1.2em; color: var(--primary); }
         .highlight { color: var(--primary); font-weight: bold; }
         
-        .note { background-color: #fff3cd; color: #856404; padding: 10px; border-radius: 6px; font-size: 0.9em; margin-top: 10px; display: none; }
+        /* Notas e Instrucciones */
+        .note { padding: 15px; border-radius: 8px; font-size: 0.95em; margin-top: 10px; line-height: 1.5; }
+        #warningBox { background-color: #fff3cd; color: #856404; display: none; border-left: 5px solid #ffc107; }
+        #instructionBox { background-color: #e8f4fd; color: #2c3e50; border-left: 5px solid #3498db; }
     </style>
 </head>
 <body>
 
-
     <div class="header-row">
-        <h1 id="appTitle">🍞 Calculadora</h1>
+        <h1 id="appTitle">🍞 Mi Pan Casero</h1>
         <div class="lang-container">
             <button id="btn-es" class="lang-btn" onclick="changeLanguage('es')">🇪🇸</button>
             <button id="btn-pt" class="lang-btn" onclick="changeLanguage('pt')">🇵🇹</button>
@@ -84,50 +81,51 @@
         </div>
     </div>
 
-
     <!-- PASO 1 -->
     <div class="card">
-        <h3 id="step1Title">1. Ingrediente Base</h3>
+        <h3 id="step1Title">1. Cantidad para empezar</h3>
         <div class="input-group">
-            <label id="lblTrigger">¿Qué cantidad tienes fija?</label>
+            <label id="lblTrigger">¿Qué ingrediente tienes?</label>
             <select id="triggerType" onchange="calcular()">
-                <!-- Opciones se llenan por JS -->
+                <!-- Opciones por JS -->
             </select>
         </div>
         <div class="input-group">
-            <label id="lblAmount">Cantidad (g)</label>
-            <input type="number" id="triggerAmount" value="130" oninput="calcular()">
+            <label id="lblAmount">Cantidad (gramos)</label>
+            <input type="number" id="triggerAmount" value="80" oninput="calcular()">
         </div>
     </div>
-
 
     <!-- PASO 2 -->
     <div class="card">
-        <h3 id="step2Title">2. Proporciones</h3>
+        <h3 id="step2Title">2. Preferencias</h3>
         <div class="input-group">
-            <label id="lblStarterPct">Porcentaje de Masa Madre (%)</label>
+            <label id="lblStarterPct">Masa Madre (%)</label>
             <div class="slider-container">
-                <input type="range" id="starterPct" min="10" max="40" value="20" oninput="updateVal('starterVal', this.value); calcular()">
+                <!-- Rango 10-30 para centrar el 20 -->
+                <input type="range" id="starterPct" min="10" max="30" step="5" value="20" oninput="updateVal('starterVal', this.value); calcular()">
                 <span id="starterVal" class="slider-val">20%</span>
             </div>
+            <small id="helpStarter" class="slider-help">Recomendación...</small>
         </div>
         <div class="input-group">
-            <label id="lblHydrationPct">Hidratación deseada (%)</label>
+            <label id="lblHydrationPct">Hidratación / Agua (%)</label>
             <div class="slider-container">
-                <input type="range" id="hydrationPct" min="50" max="90" value="70" oninput="updateVal('hydrationVal', this.value); calcular()">
+                <!-- Rango 60-100 para expertos -->
+                <input type="range" id="hydrationPct" min="60" max="100" step="5" value="70" oninput="updateVal('hydrationVal', this.value); calcular()">
                 <span id="hydrationVal" class="slider-val">70%</span>
             </div>
+            <small id="helpHydration" class="slider-help">Recomendación...</small>
         </div>
     </div>
 
-
     <!-- PASO 3 -->
     <div class="card">
-        <h3 id="step3Title">3. Harinas y Extras</h3>
+        <h3 id="step3Title">3. Receta y Extras</h3>
         <div class="input-group">
-            <label id="lblFlourType">Harina Principal</label>
+            <label id="lblFlourType">Tipo de Receta</label>
             <select id="flourType" onchange="calcular()">
-                <!-- Opciones se llenan por JS -->
+                <!-- Opciones por JS -->
             </select>
         </div>
         <div class="extras-grid">
@@ -142,146 +140,148 @@
         </div>
     </div>
 
-
     <!-- RESULTADOS -->
     <div class="card" id="resultsArea">
-        <h3 id="resTitle">📝 Receta</h3>
+        <h3 id="resTitle">📝 Receta Final</h3>
         <div id="recipeList"></div>
         
         <div id="warningBox" class="note"></div>
-        <div id="instructionBox" class="note" style="background-color: #e8f4fd; color: #0c5460; display:block;"></div>
+        <div id="instructionBox" class="note"></div>
     </div>
 
-
     <script>
-        // --- DICCIONARIO DE IDIOMAS ---
         const translations = {
             es: {
-                appTitle: "🍞 Calculadora de Pan",
-                step1Title: "1. Ingrediente Base",
-                lblTrigger: "¿Qué cantidad tienes fija?",
+                appTitle: "🍞 Mi Pan Casero",
+                step1Title: "1. Cantidad para empezar",
+                lblTrigger: "¿Qué ingrediente tienes?",
                 lblAmount: "Cantidad (gramos)",
-                step2Title: "2. Proporciones",
-                lblStarterPct: "Porcentaje de Masa Madre (%)",
-                lblHydrationPct: "Hidratación deseada (%)",
-                step3Title: "3. Harinas y Extras",
-                lblFlourType: "Harina Principal",
-                lblTurmeric: "Cúrcuma",
-                lblPumpkin: "Calabaza",
-                resTitle: "📝 Receta Final",
-                triggerOpts: ["Tengo Masa Madre", "Harina Total", "Agua Total"],
-                flourOpts: ["Trigo Blanco (T65/000)", "Trigo Integral", "Centeno", "Espelta", "Trigo Sarraceno"],
-                resLabels: { flour: "Harina Total", starter: "Masa Madre", water: "Agua", salt: "Sal", turmeric: "Cúrcuma", pumpkin: "Puré Calabaza", total: "Peso Aprox." },
+                step2Title: "2. Preferencias",
+                lblStarterPct: "Masa Madre (%)",
+                helpStarter: "Estándar: 20%. Si hace frío, sube este %.",
+                lblHydrationPct: "Hidratación / Agua (%)",
+                helpHydration: "Sube la hidratación para una miga más suave (pero será más difícil de trabajar).",
+                step3Title: "3. Receta y Extras",
+                lblFlourType: "Tipo de Receta",
+                lblTurmeric: "Añadir Cúrcuma",
+                lblPumpkin: "Añadir Calabaza",
+                resTitle: "📝 Tu Receta",
+                triggerOpts: ["Masa Madre", "Harina"],
+                flourOpts: ["Rústico (Blanca + Integral)", "100% Blanca", "100% Integral", "Centeno", "Espelta"],
+                resLabels: { flour: "Harina Total", whiteSub: "Harina Blanca", wholeSub: "Harina Integral", starter: "Masa Madre", water: "Agua", salt: "Sal", turmeric: "Cúrcuma", pumpkin: "Puré de Calabaza", total: "Peso Total Aprox." },
                 msgs: {
-                    pumpkinWater: "(Reducida por la calabaza)",
-                    bassinage: "Reservar {g}g extra para bassinage (absorve más).",
-                    rye: "El centeno es pegajoso. No te pases de agua.",
-                    spelt: "La espelta es delicada, amasa con suavidad.",
-                    tipsTitle: "<strong>Consejos:</strong><br>",
-                    tipTurmeric: "- Añade la cúrcuma junto con la sal.<br>",
-                    tipPumpkin: "- Autólisis con puré + harina + agua. Añade MM después.<br>",
-                    tipWhole: "- La integral fermenta rápido. Vigila la masa.<br>"
+                    pumpkinWater: "(Menos agua porque la calabaza hidrata)",
+                    bassinage: "Guarda {g}g de agua para añadir poco a poco si la masa lo pide.",
+                    rye: "El centeno es pegajoso. Cuidado con el agua.",
+                    spelt: "La espelta es delicada, no la trabajes demasiado.",
+                    tipsTitle: "<strong>Pasos Recomendados:</strong><br>",
+                    step1: "1. Disuelve la <b>Masa Madre</b> en el agua (haz una 'leche').<br>",
+                    stepExtras: "2. Disuelve también el extra (<b>{extra}</b>) en ese líquido.<br>",
+                    step2: "3. Añade las harinas y mezcla solo hasta que no quede seco (Autólisis).<br>",
+                    step3: "4. Añade la sal y <b>haz pliegues cada hora</b> (hasta 4 veces).",
+                    tipWhole: "- La harina integral fermenta rápido. Vigila que no se pase.<br>"
                 }
             },
             pt: { // PORTUGUÊS DE PORTUGAL
-                appTitle: "🍞 Calculadora de Pão",
-                step1Title: "1. Ingrediente Base",
-                lblTrigger: "Que quantidade tem?", // PT-PT: Más directo, sin 'você'
+                appTitle: "🍞 O Meu Pão Caseiro",
+                step1Title: "1. Quantidade inicial",
+                lblTrigger: "Que ingrediente tem?",
                 lblAmount: "Quantidade (gramas)",
-                step2Title: "2. Proporções",
-                lblStarterPct: "Percentagem de Massa Mãe (%)", // PT-PT: Percentagem
-                lblHydrationPct: "Hidratação desejada (%)",
-                step3Title: "3. Farinhas e Extras",
-                lblFlourType: "Farinha Principal",
-                lblTurmeric: "Cúrcuma",
-                lblPumpkin: "Abóbora",
-                resTitle: "📝 Receita Final",
-                triggerOpts: ["Tenho Massa Mãe", "Farinha Total", "Água Total"],
-                flourOpts: ["Trigo (T65)", "Trigo Integral", "Centeio", "Espelta", "Trigo Sarraceno"],
-                resLabels: { flour: "Farinha Total", starter: "Massa Mãe", water: "Água", salt: "Sal", turmeric: "Cúrcuma", pumpkin: "Puré de Abóbora", total: "Peso Aprox." },
+                step2Title: "2. Preferências",
+                lblStarterPct: "Massa Mãe (%)",
+                helpStarter: "Padrão: 20%. Se estiver frio, aumente este %.",
+                lblHydrationPct: "Hidratação / Água (%)",
+                helpHydration: "Aumente a hidratação para um miolo mais suave (mas será mais difícil de trabalhar).",
+                step3Title: "3. Receita e Extras",
+                lblFlourType: "Tipo de Receita",
+                lblTurmeric: "Adicionar Cúrcuma",
+                lblPumpkin: "Adicionar Abóbora",
+                resTitle: "📝 A Sua Receita",
+                triggerOpts: ["Massa Mãe", "Farinha"],
+                flourOpts: ["Rústico (Branca + Integral)", "100% Branca", "100% Integral", "Centeio", "Espelta"],
+                resLabels: { flour: "Farinha Total", whiteSub: "Farinha Branca (T65)", wholeSub: "Farinha Integral", starter: "Massa Mãe", water: "Água", salt: "Sal", turmeric: "Cúrcuma", pumpkin: "Puré de Abóbora", total: "Peso Total Aprox." },
                 msgs: {
-                    pumpkinWater: "(Reduzida pela abóbora)",
-                    bassinage: "Reserve {g}g extra para bassinage (absorve mais).",
+                    pumpkinWater: "(Menos água porque a abóbora hidrata)",
+                    bassinage: "Guarde {g}g de água para adicionar aos poucos se a massa pedir.",
                     rye: "O centeio é pegajoso. Cuidado com a água.",
-                    spelt: "A espelta é delicada, amasse com cuidado.",
-                    tipsTitle: "<strong>Dicas:</strong><br>",
-                    tipTurmeric: "- Junte a cúrcuma com o sal.<br>", // PT-PT: Juntar/Adicionar
-                    tipPumpkin: "- Autólise com puré + farinha + água. Junte a Massa Mãe depois.<br>", // PT-PT: Puré (con tilde cerrada)
-                    tipWhole: "- Integral fermenta rápido. Vigie a massa.<br>" // PT-PT: Vigie
+                    spelt: "A espelta é delicada, não trabalhe demasiado.",
+                    tipsTitle: "<strong>Passos Recomendados:</strong><br>",
+                    step1: "1. Dissolva a <b>Massa Mãe</b> na água (faça um 'leite').<br>",
+                    stepExtras: "2. Dissolva também o extra (<b>{extra}</b>) nesse líquido.<br>",
+                    step2: "3. Junte as farinhas e misture apenas até não haver seco (Autólise).<br>",
+                    step3: "4. Junte o sal e <b>faça dobras a cada hora</b> (até 4 vezes).",
+                    tipWhole: "- A farinha integral fermenta rápido. Vigie para não passar.<br>"
                 }
             },
             en: {
-                appTitle: "🍞 Sourdough Calculator",
-                step1Title: "1. Base Ingredient",
-                lblTrigger: "What amount do you have?",
+                appTitle: "🍞 My Homemade Bread",
+                step1Title: "1. Starting Amount",
+                lblTrigger: "What ingredient do you have?",
                 lblAmount: "Amount (grams)",
-                step2Title: "2. Ratios",
-                lblStarterPct: "Starter Percentage (%)",
-                lblHydrationPct: "Target Hydration (%)",
-                step3Title: "3. Flour & Extras",
-                lblFlourType: "Main Flour",
-                lblTurmeric: "Turmeric",
-                lblPumpkin: "Pumpkin",
-                resTitle: "📝 Final Recipe",
-                triggerOpts: ["I have Starter", "Total Flour", "Total Water"],
-                flourOpts: ["White Wheat (Bread Flour)", "Whole Wheat", "Rye", "Spelt", "Buckwheat"],
-                resLabels: { flour: "Total Flour", starter: "Starter", water: "Water", salt: "Salt", turmeric: "Turmeric", pumpkin: "Pumpkin Puree", total: "Approx Weight" },
+                step2Title: "2. Preferences",
+                lblStarterPct: "Starter (%)",
+                helpStarter: "Standard: 20%. Increase if cold.",
+                lblHydrationPct: "Hydration / Water (%)",
+                helpHydration: "Increase hydration for a softer crumb (but harder to handle).",
+                step3Title: "3. Recipe & Extras",
+                lblFlourType: "Recipe Type",
+                lblTurmeric: "Add Turmeric",
+                lblPumpkin: "Add Pumpkin",
+                resTitle: "📝 Your Recipe",
+                triggerOpts: ["Starter", "Flour"],
+                flourOpts: ["Rustic (White + Whole)", "100% White", "100% Whole", "Rye", "Spelt"],
+                resLabels: { flour: "Total Flour", whiteSub: "White Flour", wholeSub: "Whole Wheat", starter: "Starter", water: "Water", salt: "Salt", turmeric: "Turmeric", pumpkin: "Pumpkin Puree", total: "Approx Total Weight" },
                 msgs: {
-                    pumpkinWater: "(Reduced due to pumpkin)",
-                    bassinage: "Reserve {g}g extra for bassinage (absorbs more).",
-                    rye: "Rye is sticky. Watch the water.",
-                    spelt: "Spelt is delicate, knead gently.",
-                    tipsTitle: "<strong>Tips:</strong><br>",
-                    tipTurmeric: "- Add turmeric with the salt.<br>",
-                    tipPumpkin: "- Autolyse puree + flour + water. Add starter later.<br>",
-                    tipWhole: "- Whole wheat ferments faster. Watch the dough.<br>"
+                    pumpkinWater: "(Reduced water as pumpkin hydrates)",
+                    bassinage: "Reserve {g}g water to add gradually if needed.",
+                    rye: "Rye is sticky. Be careful with water.",
+                    spelt: "Spelt is delicate, do not overwork.",
+                    tipsTitle: "<strong>Recommended Steps:</strong><br>",
+                    step1: "1. Dissolve <b>Starter</b> in water (make a 'milk').<br>",
+                    stepExtras: "2. Also dissolve the extra (<b>{extra}</b>) in that liquid.<br>",
+                    step2: "3. Add flours and mix just until combined (Autolyse).<br>",
+                    step3: "4. Add salt and <b>fold every hour</b> (up to 4 times).",
+                    tipWhole: "- Whole wheat ferments fast. Watch the dough.<br>"
                 }
             }
         };
 
-
-        let currentLang = 'es'; // Valor por defecto
-
+        let currentLang = 'es'; 
 
         function changeLanguage(lang) {
             currentLang = lang;
             const t = translations[lang];
 
-
-            // 1. Actualizar Textos Estáticos
+            // Textos
             document.getElementById('appTitle').innerText = t.appTitle;
             document.getElementById('step1Title').innerText = t.step1Title;
             document.getElementById('lblTrigger').innerText = t.lblTrigger;
             document.getElementById('lblAmount').innerText = t.lblAmount;
             document.getElementById('step2Title').innerText = t.step2Title;
             document.getElementById('lblStarterPct').innerText = t.lblStarterPct;
+            document.getElementById('helpStarter').innerText = t.helpStarter;
             document.getElementById('lblHydrationPct').innerText = t.lblHydrationPct;
+            document.getElementById('helpHydration').innerText = t.helpHydration;
             document.getElementById('step3Title').innerText = t.step3Title;
             document.getElementById('lblFlourType').innerText = t.lblFlourType;
             document.getElementById('lblTurmeric').innerText = t.lblTurmeric;
             document.getElementById('lblPumpkin').innerText = t.lblPumpkin;
             document.getElementById('resTitle').innerText = t.resTitle;
 
-
-            // 2. Actualizar Botones (Visual)
+            // Botones
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('btn-' + lang).classList.add('active');
 
+            // Selectores
+            updateSelectOptions('triggerType', t.triggerOpts, ['starter', 'flour']);
+            updateSelectOptions('flourType', t.flourOpts, ['classic', 'white', 'whole', 'rye', 'spelt']);
 
-            // 3. Actualizar Selectores
-            // Importante: Guardamos el valor seleccionado antes de cambiar el texto
-            updateSelectOptions('triggerType', t.triggerOpts, ['starter', 'flour', 'water']);
-            updateSelectOptions('flourType', t.flourOpts, ['white', 'whole', 'rye', 'spelt', 'buckwheat']);
-
-
-            // 4. Recalcular la receta con los nuevos textos
             calcular();
         }
 
-
         function updateSelectOptions(id, labels, values) {
             const select = document.getElementById(id);
-            const oldVal = select.value; // Guardamos lo que el usuario tenía seleccionado
+            const oldVal = select.value; 
             select.innerHTML = "";
             labels.forEach((label, index) => {
                 let opt = document.createElement('option');
@@ -289,21 +289,18 @@
                 opt.innerText = label;
                 select.appendChild(opt);
             });
-            // Restauramos la selección si es posible
             if(values.includes(oldVal)) select.value = oldVal;
             else select.value = values[0];
         }
-
 
         function updateVal(id, val) {
             document.getElementById(id).innerText = val + "%";
         }
 
-
         function calcular() {
             const t = translations[currentLang];
             
-            // Obtenemos valores
+            // Entradas
             const triggerType = document.getElementById('triggerType').value;
             const triggerAmount = parseFloat(document.getElementById('triggerAmount').value) || 0;
             const starterPct = parseFloat(document.getElementById('starterPct').value) / 100;
@@ -312,21 +309,17 @@
             const hasTurmeric = document.getElementById('hasTurmeric').checked;
             const hasPumpkin = document.getElementById('hasPumpkin').checked;
 
-
             if (triggerAmount <= 0) return;
 
-
-            // Cálculo Base (100% Harina)
+            // 1. Calcular Harina Total
             let totalFlour = 0;
             if (triggerType === 'flour') totalFlour = triggerAmount;
             else if (triggerType === 'starter') totalFlour = triggerAmount / starterPct;
-            else if (triggerType === 'water') totalFlour = triggerAmount / hydrationPct;
 
-
-            // Ingredientes derivados
+            // 2. Calcular Resto
             let starterAmount = totalFlour * starterPct;
             let waterAmount = totalFlour * hydrationPct;
-            let saltAmount = totalFlour * 0.02; 
+            let saltAmount = totalFlour * 0.02; // 2% Sal
             
             // Extras
             let turmericAmount = 0;
@@ -334,23 +327,18 @@
             let waterMsg = "";
             let waterClass = "";
 
-
             if (hasTurmeric) turmericAmount = totalFlour * 0.005;
-
 
             if (hasPumpkin) {
                 pumpkinAmount = totalFlour * 0.55; 
-                // Ajuste de agua por calabaza (muy reducido porque la calabaza ya aporta agua)
                 waterAmount = totalFlour * 0.22; 
                 waterMsg = t.msgs.pumpkinWater;
                 waterClass = "highlight";
             }
 
-
-            // Bassinage / Ajustes por Harina
+            // Bassinage
             let bassinageMsg = "";
             let extraWater = 0;
-
 
             if (!hasPumpkin) {
                 if (flourType === 'whole') {
@@ -363,58 +351,67 @@
                 }
             }
 
-
-            // Renderizado de Resultados
-            const flourSelect = document.getElementById('flourType');
-            const flourLabel = flourSelect.options[flourSelect.selectedIndex].text;
+            // --- RENDER ---
+            let html = "";
             
-            let html = `
-                <div class="result-row"><span>${t.resLabels.flour} (${flourLabel})</span> <span class="highlight">${Math.round(totalFlour)} g</span></div>
-                <div class="result-row"><span>${t.resLabels.starter}</span> <span>${Math.round(starterAmount)} g</span></div>
-                <div class="result-row"><span>${t.resLabels.water} ${waterMsg}</span> <span class="${waterClass}">${Math.round(waterAmount)} g</span></div>
-                <div class="result-row"><span>${t.resLabels.salt}</span> <span>${Math.round(saltAmount)} g</span></div>
-            `;
+            // Desglose Harinas
+            if (flourType === 'classic') {
+                // Mix: 90% Blanca / 10% Integral (Aprox. Gluten Morgen style)
+                let whFlour = totalFlour * 0.10; 
+                let wFlour = totalFlour - whFlour;
+                
+                html += `<div class="result-row"><span>${t.resLabels.flour}</span> <span class="highlight">${Math.round(totalFlour)} g</span></div>`;
+                html += `<div class="result-row sub-item"><span>${t.resLabels.whiteSub}</span> <span>${Math.round(wFlour)} g</span></div>`;
+                html += `<div class="result-row sub-item"><span>${t.resLabels.wholeSub}</span> <span>${Math.round(whFlour)} g</span></div>`;
+            } else {
+                const flourSelect = document.getElementById('flourType');
+                const flourLabel = flourSelect.options[flourSelect.selectedIndex].text;
+                html += `<div class="result-row"><span>${t.resLabels.flour} (${flourLabel})</span> <span class="highlight">${Math.round(totalFlour)} g</span></div>`;
+            }
 
+            html += `<div class="result-row"><span>${t.resLabels.starter}</span> <span>${Math.round(starterAmount)} g</span></div>`;
+            html += `<div class="result-row"><span>${t.resLabels.water} ${waterMsg}</span> <span class="${waterClass}">${Math.round(waterAmount)} g</span></div>`;
+            html += `<div class="result-row"><span>${t.resLabels.salt}</span> <span>${Math.round(saltAmount)} g</span></div>`;
 
             if (hasTurmeric) html += `<div class="result-row" style="color:#d35400"><span>${t.resLabels.turmeric}</span> <span>${Math.round(turmericAmount)} g</span></div>`;
             if (hasPumpkin) html += `<div class="result-row" style="color:#e67e22"><span>${t.resLabels.pumpkin}</span> <span>${Math.round(pumpkinAmount)} g</span></div>`;
 
-
             let totalWeight = totalFlour + starterAmount + waterAmount + saltAmount + pumpkinAmount;
             html += `<div class="result-row total"><span>${t.resLabels.total}</span> <span>${Math.round(totalWeight)} g</span></div>`;
 
-
             document.getElementById('recipeList').innerHTML = html;
 
-
-            // Notas
-            const warningBox = document.getElementById('warningBox');
-            const instructionBox = document.getElementById('instructionBox');
+            // Instrucciones
+            let instructions = t.msgs.tipsTitle;
+            instructions += t.msgs.step1;
             
+            let extrasText = [];
+            if(hasTurmeric) extrasText.push(t.resLabels.turmeric);
+            if(hasPumpkin) extrasText.push(t.resLabels.pumpkin);
+            if(extrasText.length > 0) {
+                instructions += t.msgs.stepExtras.replace('{extra}', extrasText.join(" + "));
+            }
+
+            instructions += t.msgs.step2;
+            instructions += t.msgs.step3;
+
+            // Caja Advertencia
+            const warningBox = document.getElementById('warningBox');
             if (bassinageMsg) {
                 warningBox.style.display = 'block';
                 warningBox.innerText = "💧 " + bassinageMsg;
             } else {
                 warningBox.style.display = 'none';
             }
-
-
-            let steps = t.msgs.tipsTitle;
-            if (hasTurmeric) steps += t.msgs.tipTurmeric;
-            if (hasPumpkin) steps += t.msgs.tipPumpkin;
-            if (flourType === 'whole' && !hasPumpkin) steps += t.msgs.tipWhole;
             
-            instructionBox.innerHTML = steps;
+            document.getElementById('instructionBox').innerHTML = instructions;
         }
 
-
-        // INICIALIZACIÓN
         window.onload = function() {
             const userLang = navigator.language || navigator.userLanguage; 
             let defaultLang = 'es';
             if (userLang.startsWith('pt')) defaultLang = 'pt';
             else if (userLang.startsWith('en')) defaultLang = 'en';
-            
             changeLanguage(defaultLang);
         };
     </script>
